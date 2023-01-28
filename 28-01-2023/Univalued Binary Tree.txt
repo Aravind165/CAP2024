@@ -1,0 +1,37 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isUnivalTree(TreeNode root) {
+        TreeNode root1 = root;
+        int flag=root.val;
+        if(root==null)
+            return true;
+        Queue<TreeNode> que = new LinkedList<>();
+        que.add(root);
+        while(!que.isEmpty()){
+            int n= que.size();
+            for(int i=0;i<n;i++){
+                TreeNode ele = que.poll();
+                if(ele.val!=flag){
+                    return false;
+                }
+                if(ele.left!=null) que.add(ele.left);
+                if(ele.right!=null) que.add(ele.right);
+            }
+        }
+        return true;       
+    }
+}
