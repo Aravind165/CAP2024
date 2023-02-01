@@ -1,0 +1,59 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+     HashMap<Integer,Integer> map = new HashMap<>();
+     List<Integer> ls1 = new ArrayList<>();
+     int max=0;
+    public int[] findMode(TreeNode root) {
+       inorder(root,map);
+       
+       List<Integer> ls = new ArrayList<>();
+       List<Integer> ls2 = new ArrayList<>();
+       for(int i=0;i<ls1.size();i++){
+           if(map.get(ls1.get(i))==max){
+               ls.add(ls1.get(i));
+           }
+       }
+       
+       for(int i=0;i<ls.size();i++){
+           if(!ls2.contains(ls.get(i))){
+               ls2.add(ls.get(i));
+           }
+       }
+       int[] ar = new int[ls2.size()];
+       for(int i=0;i<ls2.size();i++){
+           ar[i]=ls2.get(i);
+       }
+        return ar;
+    }
+    public void inorder( TreeNode root, HashMap<Integer,Integer> map ){
+        if(root==null)
+            return;
+        inorder(root.left,map);
+        ls1.add(root.val);
+        if(map.containsKey(root.val)){
+            map.put(root.val,map.get(root.val)+1);
+            max=Math.max(max,map.get(root.val));
+        }
+        else{
+            map.put(root.val,1);
+            max=Math.max(max,map.get(root.val));
+        }
+        inorder(root.right,map);
+
+    } 
+
+}
