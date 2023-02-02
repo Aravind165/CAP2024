@@ -1,0 +1,38 @@
+	/* 
+    
+    class Node 
+    	int data;
+    	Node left;
+    	Node right;
+	*/
+	public static void topView(Node root) {
+        
+       Queue<Value> que = new ArrayDeque();
+       TreeMap<Integer,Integer> map = new TreeMap<>();
+        que.add(new Value(0,root));
+        while(!que.isEmpty()){
+            int n=que.size();
+            for(int i=0;i<n;i++){
+                Value p = que.poll();
+                if(!map.containsKey(p.l)){
+                    map.put(p.l,p.node.data);
+                }
+                if(p.node.left!=null)
+                    que.add(new Value(p.l-1,p.node.left));
+                if(p.node.right!=null)
+                    que.add(new Value(p.l+1,p.node.right));
+            }
+        }
+        List<Integer> ls = new ArrayList<>();
+        for(Map.Entry<Integer,Integer> entry:map.entrySet())
+            System.out.print(entry.getValue()+" ");
+      
+    }
+static class Value{
+            int l;
+            Node node;
+            public Value(int l, Node node){
+                this.l=l;
+                this.node=node;
+            }
+        }
