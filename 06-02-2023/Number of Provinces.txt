@@ -1,0 +1,32 @@
+class Solution {
+    List<List<Integer>> ls = new ArrayList<>();
+    public int findCircleNum(int[][] isConnected) {
+        int v = isConnected.length;
+        boolean[] visted = new boolean[v];
+        for(int i=0;i<v;i++){
+            ls.add(new ArrayList<Integer>());
+        }
+        for(int i=0;i<v;i++){
+            for(int j=0;j<v;j++){
+                if(isConnected[i][j]==1)
+                    ls.get(i).add(j);
+            }
+        }
+        int provinces = 0;
+        for(int i=0;i<v;i++){
+            if(!visted[i]){
+                provinces++;
+                dfs(i,visted);
+            }
+        }
+
+        return provinces;
+    }
+    public void dfs(int i,boolean[] visted){
+        visted[i]=true;
+        for(int nei:ls.get(i)){
+            if(!visted[nei])
+                dfs(nei,visted);
+        }
+    }
+}
