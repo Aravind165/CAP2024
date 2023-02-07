@@ -1,0 +1,30 @@
+int n = prerequisites.length;
+        for(int i=0;i<numCourses;i++)
+            ls.add(new ArrayList<Integer>());
+        for(int i=0;i<n;i++){
+                ls.get(prerequisites[i][1]).add(prerequisites[i][0]);
+        }
+        int[] ar = new int[numCourses];
+        for(int i=0;i<ls.size();i++){
+            for(int j:ls.get(i)){
+                ar[j]++;
+            }
+        }
+        Queue<Integer> que = new LinkedList<>();
+        for(int i=0;i<numCourses;i++){
+            if(ar[i]==0)
+                que.offer(i);
+        }
+        int count=0;
+        while(!que.isEmpty()){
+            int p=que.remove();
+            count++;
+            for(int i:ls.get(p)){
+                ar[i]--;
+                if(ar[i]==0)
+                    que.offer(i);
+            }
+        }
+        return count==numCourses?true:false;
+    }
+}
