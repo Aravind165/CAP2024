@@ -1,0 +1,40 @@
+class Solution {
+    public int swimInWater(int[][] grid) {
+       int n = grid.length;
+       boolean[][] visted = new boolean[n][n];
+       PriorityQueue<Pair> que = new PriorityQueue<>();
+       que.offer(new Pair(grid[0][0],0,0));
+       visted[0][0]=true;
+       int[] rowoff={-1,1,0,0};
+       int[] coloff={0,0,-1,1};
+       int maxx=0;
+       while(!que.isEmpty()){
+           Pair p = que.remove();
+           maxx=Math.max(maxx,p.val);
+           visted[p.row][p.col]=true;
+           if(p.row==n-1 && p.col==n-1)
+            return maxx;
+        for(int i=0;i<4;i++){
+            int a = p.row+rowoff[i];
+            int b = p.col+coloff[i];
+            if(a<0 || b<0 || a>n-1 || b>n-1)
+                continue;
+            else if(!visted[a][b])
+                que.offer(new Pair(grid[a][b],a,b));
+        }
+       }
+       return -1;
+    }
+}
+
+class Pair implements Comparable<Pair>{
+    int val,row,col;
+    Pair(int val,int row,int col){
+        this.val=val;
+        this.row=row;
+        this.col=col;
+    }
+    public int compareTo(Pair p){
+        return val-p.val;
+    }
+}
