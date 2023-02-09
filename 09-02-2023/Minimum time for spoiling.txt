@@ -1,0 +1,71 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner in = new Scanner(System.in);
+        int r = in.nextInt();
+        int c = in.nextInt();
+        int[][] orng = new int[r][c];
+        boolean[][] visted = new boolean[r][c];
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                orng[i][j]=in.nextInt();
+            }
+        }
+        Queue<Pair> que = new LinkedList<>();
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                if(orng[i][j]==2)
+                    que.offer(new Pair(orng[i][j],i,j));
+            }
+        }
+        int[] rowoff={-1,1,0,0};
+        int[] coloff={0,0,-1,1};
+        int count =0;
+        if(que.size()>0){
+            count=-1;
+        }
+        while(!que.isEmpty()){
+            int n = que.size();
+            count++;
+            for(int i=0;i<n;i++){
+                Pair p = que.poll();
+                for(int j=0;j<4;j++){
+                    int a = p.row+rowoff[j];
+                    int b = p.col+coloff[j];
+                    if(a<0 || b<0 || a>r-1 || b>c-1)
+                        continue;
+                    else if(orng[a][b]==1){
+                        orng[a][b]=2;
+                        que.offer(new Pair(orng[a][b],a,b));
+                    }
+                }
+            }
+            
+        }
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                if(orng[i][j]==1){
+                    System.out.println(-1);
+                    return;
+                }
+            }
+        }
+        System.out.println(count);
+        
+    }
+}
+class Pair{
+    int val,row,col;
+    Pair(int val,int row,int col){
+        this.val=val;
+        this.row=row;
+        this.col=col;
+    }
+}
