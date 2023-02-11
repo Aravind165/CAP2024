@@ -1,0 +1,125 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+ class Pair implements Comparable<Pair>{
+        int date,month,year;
+        Pair(int date,int month,int year){
+            this.date=date;
+            this.month=month;
+            this.year=year;
+        }
+        public int compareTo(Pair p){
+            if(p.year==year){
+                if(p.month==month){
+                    return p.date-this.date;
+                }
+                else{
+                    return p.month-this.month;
+                }
+            }
+            else{
+                return this.year-p.year;
+            }
+        }
+    }
+
+public class Solution {
+   
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner in = new Scanner(System.in);
+        String[] s = in.nextLine().split(",");
+        List<String> ls = new ArrayList<>();
+        for(String t:s){
+            String d=change(t);
+            ls.add(d);
+        }
+        List<List<Integer>> ls1 = new ArrayList<>(); 
+        for(String t:ls){
+           List<Integer> ls2 = modify(t);
+            ls1.add(ls2);
+        }
+        List<Pair> ls3 = new ArrayList<>();
+        for(List<Integer> o : ls1){
+            ls3.add(new Pair(o.get(0),o.get(1),o.get(2)));
+        }
+        List<String> Mons = new ArrayList<>();
+        Mons.add("Jan");
+        Mons.add("Feb");
+        Mons.add("Mar");
+        Mons.add("Apr");
+        Mons.add("May");
+        Mons.add("Jun");
+        Mons.add("Jul");
+        Mons.add("Aug");
+        Mons.add("Sep");
+        Mons.add("Oct");
+        Mons.add("Nov");
+        Mons.add("Dec");
+        for(int i=ls3.size()-1;i>=0;i--){
+            Pair p = ls3.get(i);
+            if(p.date/10==0){
+                String ss ="0"+p.date;
+                if(i==0)
+                    System.out.print(ss+" "+Mons.get(p.month)+" "+p.year);
+                else
+                    System.out.print(ss+" "+Mons.get(p.month)+" "+p.year+", ");
+            }
+            else{
+                if(i==0)
+                    System.out.print(p.date+" "+Mons.get(p.month)+" "+p.year);
+                else
+                    System.out.print(p.date+" "+Mons.get(p.month)+" "+p.year+", ");
+            }
+        }
+        
+        
+        
+    }
+    static List<Integer> modify(String t){
+        List<Integer> lss = new ArrayList<>();
+        List<String> Mon = new ArrayList<>();
+        Mon.add("jan");
+        Mon.add("feb");
+        Mon.add("mar");
+        Mon.add("apr");
+        Mon.add("may");
+        Mon.add("jun");
+        Mon.add("jul");
+        Mon.add("aug");
+        Mon.add("sep");
+        Mon.add("oct");
+        Mon.add("nov");
+        Mon.add("dec");
+        String s4="";
+        for(int i=0;i<t.length();i++){
+            s4=s4+t.charAt(i);
+            if(i==1){
+                lss.add(Integer.parseInt(s4));
+                s4="";
+            }
+            if(i==4){
+                s4=s4.toLowerCase();
+                lss.add(Mon.indexOf(s4));
+                s4="";
+            }
+            if(i==8){
+                lss.add(Integer.parseInt(s4));
+                s4="";
+            }
+        }
+        return lss;
+    }
+    static String change(String t){
+        String s1 = "";
+        for(int i=0;i<t.length();i++){
+            if(t.charAt(i)!=' '){
+                s1+=t.charAt(i);
+            }
+        }
+        return s1;
+    }
+}

@@ -1,0 +1,29 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        String s = in.next();
+        int a = in.nextInt();
+        for(int j=0;j<a;j++){
+            int b=in.nextInt();
+            count(b,s);
+        }
+    }
+    static void count(int b,String s){
+        int c=0;
+        for(int i=0;i<b-1;i++){
+                if(s.charAt(i)==s.charAt(b-1)){
+                    c++;
+                }
+            }
+            System.out.println(c);
+    }
+}
