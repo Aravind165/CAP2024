@@ -1,0 +1,54 @@
+
+
+//User function Template for Java
+
+
+class Solution
+{
+    //Function to find the shortest distance of all the vertices
+    //from the source vertex S.
+    static int[] dijkstra(int V, ArrayList<ArrayList<ArrayList<Integer>>> adj, int S)
+    {
+        // Write your code here
+        List<List<Pair>> ls = new ArrayList<>();
+        for(int i=0;i<V;i++){
+            ls.add(new ArrayList<Pair>());
+        }
+        int[] dist = new int[V];
+        boolean[] visited = new boolean[V];
+        for(int i=0;i<adj.size();i++){
+            ArrayList<ArrayList<Integer>> l = adj.get(i);
+            for(int j=0;j<l.size();j++){
+                ArrayList<Integer> l1=l.get(j);
+                ls.get(i).add(new Pair(l1.get(0),l1.get(1)));
+            }
+        }
+        PriorityQueue<Pair> que = new PriorityQueue<>();
+        que.offer(new Pair(S,0));
+        while(!que.isEmpty()){
+            Pair n = que.poll();
+            if(!visited[n.ver])
+                dist[n.ver]=n.dis;
+            visited[n.ver]=true;
+            for(Pair p:ls.get(n.ver)){
+                if(!visited[p.ver]){
+                    que.offer(new Pair(p.ver,p.dis+n.dis));
+                    
+                }
+            }
+        }
+        return dist;
+    }
+    
+}
+
+class Pair implements Comparable<Pair>{
+    int ver,dis;
+    Pair(int ver,int dis){
+        this.ver=ver;
+        this.dis=dis;
+    }
+    public int compareTo(Pair p){
+        return dis-p.dis;
+    }
+}

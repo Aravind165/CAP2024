@@ -1,0 +1,57 @@
+
+
+// User function Template for Java
+
+/*
+*   edges: vector of vectors which represents the graph
+*   S: source vertex to start traversing graph with
+*   V: number of vertices
+*/
+class Solution {
+    static int[] bellman_ford(int V, ArrayList<ArrayList<Integer>> edges, int S) {
+        // Write your code here
+        ArrayList<ArrayList<Pair>> ls = new ArrayList<>();
+        for(int i=0;i<V;i++)
+            ls.add(new ArrayList<Pair>());
+        boolean[][] visited = new boolean[V][V];
+        int[] dist = new int[V];
+        for(int i=0;i<V;i++){
+            dist[i]=100000000;
+        }
+        dist[S]=0;
+        for(int i=0;i<edges.size();i++){
+            ls.get(edges.get(i).get(0)).add(new Pair(edges.get(i).get(1),edges.get(i).get(2)));
+        }
+        PriorityQueue<Pair> que = new PriorityQueue<>();
+        que.add(new Pair(S,0));
+        while(!que.isEmpty()){
+            Pair p = que.poll();
+            if(dist[p.ver]>p.dis)
+                dist[p.ver]=p.dis;
+            for(Pair n:ls.get(p.ver)){
+                if(!visited[p.ver][n.ver]){
+                    que.offer(new Pair(n.ver,n.dis+p.dis));
+                    visited[p.ver][n.ver]=true;
+                }
+                else{
+                    if(n.dis+p.dis<0){
+                        int[] res = new int[1];
+                        res[0]=-1;
+                        return res;
+                    }
+                }
+            }
+        }
+        return dist;
+    }
+}
+class Pair implements Comparable<Pair>{
+    int ver,dis;
+    Pair(int ver,int dis){
+        this.ver=ver;
+        this.dis=dis;
+    }
+    public int compareTo(Pair p){
+        return dis-p.dis;
+    }
+}
