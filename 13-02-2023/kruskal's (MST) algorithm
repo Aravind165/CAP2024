@@ -1,0 +1,64 @@
+// User function Template for Java
+
+class Solution{
+	static int spanningTree(int V, int E, int edges[][]){
+	    // Code Here.
+	    PriorityQueue<Pair> que = new PriorityQueue<>();
+	    int min=0;
+	    boolean[] visited = new boolean[V];
+	    int[] parent = new int[V];
+	    for(int i=0;i<V;i++){
+	        parent[i]=i;
+	    }
+	    
+	    for(int i=0;i<E;i++){
+	        que.add(new Pair(edges[i][0],edges[i][1],edges[i][2]));
+	    }
+	    
+	    
+	    int c=0;
+	    int v=0;
+	    boolean flag=true;
+	    while(!que.isEmpty() && c!=E){
+	        Pair p=que.poll();
+	        v=p.wei;
+	        c++;
+	        if(union(p.ver1,p.ver2,parent)){
+	          continue;
+	           
+	       }
+	        else{
+	            min+=p.wei;
+	            visited[p.ver1]=true;
+	            visited[p.ver2]=true;
+	        }
+	    }
+	    
+	    return min;
+	}
+	static int find(int u,int[] parent){
+	        if(parent[u]==u)
+	            return u;
+	        return find(parent[u],parent);
+    }
+    static boolean union(int u,int v,int[] parent){
+	        int x=find(u,parent);
+	        int y=find(v,parent);
+	        if(x==y)
+	            return true;
+	       else
+	           parent[x]=y;
+	        return false;
+	    }
+}
+class Pair implements Comparable<Pair>{
+    int ver1,ver2,wei;
+    Pair(int ver1,int ver2,int wei){
+        this.ver1=ver1;
+        this.ver2=ver2;
+        this.wei=wei;
+    }
+    public int compareTo(Pair p){
+        return wei-p.wei;
+    }
+}
